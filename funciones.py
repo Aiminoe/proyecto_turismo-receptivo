@@ -32,10 +32,10 @@ def create_schema():
 # crear insert de objetos para la db
 def insert(provincia_de_destino,pais_de_residencia,turistas_no_residentes):
     Session = sessionmaker(bind=engine)
-    session = Session(provincia_de_destino=provincia_de_destino,pais_de_residencia=pais_de_residencia,turistas_no_residentes=turistas_no_residentes)
+    session = Session()
 
     # Crear un nuevo producto
-    new_data = Data()
+    new_data = Data(provincia_de_destino=provincia_de_destino,pais_de_residencia=pais_de_residencia,turistas_no_residentes=turistas_no_residentes)
    
     # Agregar el nuevo producto a la DB
     session.add(new_data)
@@ -43,14 +43,15 @@ def insert(provincia_de_destino,pais_de_residencia,turistas_no_residentes):
 
    
    
-# insertar objetos de csv a la tabla de la db   
+# insertar objetos de csv a la tabla de a db   
 def fill():
     archivo= "origen_y_destinos_visitados.csv"
     with open(archivo) as csvfile:
         data = list(csv.DictReader(csvfile))
 
     for row in data:
-        insert(row['provincia_de_destino'], row['pais_de_residencia']),int(row['turistas_no_residentes'])
+        
+        insert(row['provincia_de_destino'],row ['pais_de_residencia'],row ['turistas_no_residentes'])
 
 
 
@@ -63,6 +64,8 @@ def fill():
 if __name__ == '__main__':
 
     create_schema()    
+
+    
 
     fill()
 
